@@ -224,7 +224,7 @@ def load(model_name):
 
 
 #created embeddings given the input model and size of the output
-def create_embeddings(model, embedding_size):
+def create_embeddings(model, data_loader, embedding_size):
   device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   print(device)
 
