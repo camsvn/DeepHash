@@ -183,7 +183,7 @@ class BalancedBatchSampler(BatchSampler):
         return self.n_dataset // self.batch_size
 
 
-class TripletCifar1(Dataset):
+class TripletCifar(Dataset):
     """
     Train: For each sample (anchor) randomly chooses a positive and negative samples
     Test: Creates fixed triplets for testing
