@@ -89,3 +89,37 @@ class OnlineTripletLoss(nn.Module):
         losses = F.relu(ap_distances - an_distances + self.margin)
 
         return losses.mean(), len(triplets)
+
+class OnlineBinaryTripletLoss(nn.Module):
+    """
+    Online Triplets loss
+    Takes a batch of embeddings and corresponding labels.
+    Triplets are generated using triplet_selector object that take embeddings and targets and return indices of
+    triplets
+    """
+
+    def __init__(self, margin, lam, triplet_selector):
+        super(OnlineBinaryTripletLoss, self).__init__()
+        self.lam = lam
+        self.margin = margin
+        self.triplet_selector = triplet_selector
+
+    def forward(self, embeddings, target):
+
+        triplets = self.triplet_selector.get_triplets(embeddings, target)
+
+        if embeddings.is_cuda:
+            triplets = triplets.cuda()
+        a = embeddings[triplets[:, 0]].unsqueeze(-1)
+        p = embeddings[triplets[:, 1]].unsqueeze(-2)
+        n = embeddings[triplets[:, 2]].unsqueeze(-2)
+
+        theta_ap = torch.bmm(p, a)/2
+        theta_an = torch.bmm(n, a)/2
+
+        b = torch.sign(embeddings)
+        reg = (b-embeddings).pow(2).sum(1).sum()
+
+        p = theta_ap - theta_an - self.margin 
+        losses = -(p - torch.log(1 + torch.exp(p))).sum() +(self.lam*reg).sum()
+        return losses, len(triplets)

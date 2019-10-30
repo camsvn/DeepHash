@@ -1,4 +1,5 @@
 from itertools import combinations
+import pickle
 
 import numpy as np
 import torch
@@ -192,3 +193,74 @@ def RandomNegativeTripletSelector(margin, cpu=False): return FunctionNegativeTri
 def SemihardNegativeTripletSelector(margin, cpu=False): return FunctionNegativeTripletSelector(margin=margin,
                                                                                   negative_selection_fn=lambda x: semihard_negative(x, margin),
                                                                                   cpu=cpu)
+
+
+# Freeze all the parameters in the model
+def freeze_model(model):
+  for params in model.parameters():
+    params.requires_grad=False
+
+# check if all the parameters have been freezed
+def list_trainable(model):
+  for params in model.parameters():
+    print(params.requires_grad)
+  
+# delete the last layers
+def del_last_layers(model_class, num_layers):
+  model_class = nn.Sequential(*list(model_class.children())[:-num_layers])
+  return model_class
+
+# Save the mebeddings to .emb files
+def save(features, targets, model_name):
+  with open(model_name+'.embs', 'wb') as file:
+    pickle.dump((features,targets), file)
+    print('file saved in ', model_name)
+
+# load the data from .embs files
+def load(model_name):
+  with open(model_name+'.embs', 'rb') as file:
+    features, targets = pickle.load(file)
+    return (features, targets)
+
+
+#created embeddings given the input model and size of the output
+def create_embeddings(model, embedding_size):
+  device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+  print(device)
+
+  features = {}
+  targets = {}
+  model.to(device)
+  features['train'] = np.empty([0, embedding_size])
+  targets['train'] = np.empty([0, ])
+
+  features['test'] = np.empty([0, embedding_size])
+  targets['test'] = np.empty([0,])
+
+  for i, (images,target) in enumerate(data_loader['train']):
+    images = images.to(device)
+    target = target.to(device)
+
+    try:
+      output = model(images).cpu().numpy()
+      features['train'] = np.append(features['train'],output, axis=0)
+      targets['train'] = np.append(targets['train'],target.cpu(), axis=0)
+    except:
+      print(output.shape)
+      print('error occured: ')
+      return (None, None)
+    
+    if i%100 == 0:
+      print(i)
+
+  for i, (images,target) in enumerate(data_loader['test']):
+    images = images.to(device)
+    target = target.to(device)
+
+    output = model(images).cpu().numpy()
+    features['test'] = np.append(features['test'],output, axis=0)
+    targets['test'] = np.append(targets['test'],target.cpu(), axis=0)
+
+    if i%100 == 0:
+      print(i)
+  return (features, targets)
