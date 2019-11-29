@@ -3,6 +3,7 @@
 PyTorch implementation of DeepHash and triplet networks for learning embeddings.
 
 DeepHash is a model used to create Binary encodings of images for that can be used in image retrival systems.
+Learning representations is one of the most important tasks in machine learning domain.The central idea of learning representations is to train a deep learning model to receive good feature embeddings essential for the tasks like image classification or retrieval. Assuming access to supervised data, triplet networks [1,2] are very popular approaches that can be applied to train informative representation on the output of the network. The general idea of the model is to take three images, anchor, positive (usually object from the same class as anchor) and negative (from different class), pass through the network that shares the parameters, and train the embedding on the last layer, which forces anchor and query images to be closer than anchor and negative ones, according to the assumed distance calculated on the embeddings (see fig. 1 for details). The goal of your work is to implement and verify the quality of triplet loss for challenging tasks like image retrieval and classification.
 
 # Installation
 
