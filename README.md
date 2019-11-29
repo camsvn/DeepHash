@@ -5,9 +5,50 @@ PyTorch implementation of DeepHash and triplet networks for learning embeddings.
 DeepHash is a model used to create Binary encodings of images for that can be used in image retrival systems.
 Learning representations is one of the most important tasks in machine learning domain.The central idea of learning representations is to train a deep learning model to receive good feature embeddings essential for the tasks like image classification or retrieval. Assuming access to supervised data, triplet networks [1,2] are very popular approaches that can be applied to train informative representation on the output of the network. The general idea of the model is to take three images, anchor, positive (usually object from the same class as anchor) and negative (from different class), pass through the network that shares the parameters, and train the embedding on the last layer, which forces anchor and query images to be closer than anchor and negative ones, according to the assumed distance calculated on the embeddings (see fig. 1 for details). The goal of your work is to implement and verify the quality of triplet loss for challenging tasks like image retrieval and classification.
 
+# Tasks
+
+1. Read the papers that introduces triplet networks ([1] and [2]) carefully a couple of
+times to be familiar with the content and implementation details.
+
+2. Take one of the pretrained models (VGG16, VGG19, ResNet) and one of the two
+benchmark datasets: Cifar10 or SVHN. Extract the features from the last layer
+before classifcation) and evaluate the representation capabilties of the taken
+model. For classifcation purposes, you can apply the K-Nearest Neigbour (KNN)
+approach and to examine the retrieval capabilties, use mean average precision
+(mAP) for evaluation. Use proper research methodology (test\train split, consistent
+method for mAP evaluation), whichis going to be used in the following experiments.
+Provide t-sne plots for latent representation for qualitative evaluation.
+
+3. Implement triplet losses provided in [1] and [2] directly on the representation from
+the model that you selected in point 2. Train the model with the triplet losses
+provided in the papers and evaluate the quality of the embeddings following the
+methodology assumed in point 2. The loss function in [2] contains a margin
+parameter alpha, whichshould be selected according to the proper model selection
+procedure (based on the separate validation set). Compare and discuss the results
+obtained in point 2. with the results achieved for both triplet losses.
+
+4. One of the main drawbacks of triplet networks is a large number of possible triplets
+that can be constructed for training purposes. The improper selection of the
+triplets can decrease the convergence speed drastically, or even result in providing
+poor data representation. Implement 3-4 hard mining techniques (you can use those
+mentioned in [2] and propose your own solution) and examine their quality in terms
+of retrieval capabilities and speed of training.
+
+5. Now you can start real research work! For image retrieval tasks it is useful to
+represent the data using compact binary codes. The representative binary codes
+can be achieved by application of the triplet training framework. We encourage you
+to propose the method of training compact binary codes on the output of the model
+that you used in previous experiments. You can try to reimplement some ideas from
+[3] or/and [4]. Do not forget to report the most interesting results using the
+consistent research methodology ​ (this task is not mandatory).
+
 # Installation
 
 Requires [pytorch](http://pytorch.org/) 1.3 with torchvision 
+
+# Notebooks
+
+
 
 
 # Code structure
@@ -42,12 +83,25 @@ Requires [pytorch](http://pytorch.org/) 1.3 with torchvision
 
 # References
 
-[1] Raia Hadsell, Sumit Chopra, Yann LeCun, [Dimensionality reduction by learning an invariant mapping](http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf), CVPR 2006
+[1] Hoffer, Elad, and Nir Ailon. ["Deep metric learning using triplet network."](https://arxiv.org/abs/1412.6622) ​ International
+Workshop on Similarity-Based Pattern Recognition . ​ Springer, Cham, 2015.
 
-[2] Schroff, Florian, Dmitry Kalenichenko, and James Philbin. [Facenet: A unified embedding for face recognition and clustering.](https://arxiv.org/abs/1503.03832) CVPR 2015
+[2] Schroff, Florian, Dmitry Kalenichenko, and James Philbin. ["Facenet: A unified embedding
+for face recognition and clustering."](https://arxiv.org/abs/1503.03832) Proceedings of the IEEE conference on computer vision
+and pattern recognition. 2015.
 
-[3] Alexander Hermans, Lucas Beyer, Bastian Leibe, [In Defense of the Triplet Loss for Person Re-Identification](https://arxiv.org/pdf/1703.07737), 2017
+[3] Zhuang, Bohan, et al. ["Fast training of triplet-based deep binary embedding networks."](https://arxiv.org/abs/1503.03832)
+Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016.
 
-[4] Brandon Amos, Bartosz Ludwiczuk, Mahadev Satyanarayanan, [OpenFace: A general-purpose face recognition library with mobile applications](http://reports-archive.adm.cs.cmu.edu/anon/2016/CMU-CS-16-118.pdf), 2016
+[4] Wang, Xiaofang, Yi Shi, and Kris M. Kitani. ["Deep supervised hashing with triplet labels."](https://arxiv.org/abs/1612.03900)
+Asian conference on computer vision . ​ Springer, Cham, 2016.
 
-[5] Yi Sun, Xiaogang Wang, Xiaoou Tang, [Deep Learning Face Representation by Joint Identification-Verification](http://papers.nips.cc/paper/5416-deep-learning-face-representation-by-joint-identification-verification), NIPS 2014
+[5] Raia Hadsell, Sumit Chopra, Yann LeCun, [Dimensionality reduction by learning an invariant mapping](http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf), CVPR 2006
+
+[6] Schroff, Florian, Dmitry Kalenichenko, and James Philbin. [Facenet: A unified embedding for face recognition and clustering.](https://arxiv.org/abs/1503.03832) CVPR 2015
+
+[7] Alexander Hermans, Lucas Beyer, Bastian Leibe, [In Defense of the Triplet Loss for Person Re-Identification](https://arxiv.org/pdf/1703.07737), 2017
+
+[8] Brandon Amos, Bartosz Ludwiczuk, Mahadev Satyanarayanan, [OpenFace: A general-purpose face recognition library with mobile applications](http://reports-archive.adm.cs.cmu.edu/anon/2016/CMU-CS-16-118.pdf), 2016
+
+[9] Yi Sun, Xiaogang Wang, Xiaoou Tang, [Deep Learning Face Representation by Joint Identification-Verification](http://papers.nips.cc/paper/5416-deep-learning-face-representation-by-joint-identification-verification), NIPS 2014
