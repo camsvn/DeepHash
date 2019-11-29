@@ -15,6 +15,8 @@ Requires [pytorch](http://pytorch.org/) 1.3 with torchvision
   - *SiameseMNIST* class - wrapper for a MNIST-like dataset, returning random positive and negative pairs
   - *TripletMNIST* class - wrapper for a MNIST-like dataset, returning random triplets (anchor, positive and negative)
   - *BalancedBatchSampler* class - BatchSampler for data loader, randomly chooses *n_classes* and *n_samples* from each class based on labels
+  - *TripletCifar* cass - wrapper for the CIFAR dataset, returning random triplets (anchor, positive and negative)
+  - *BalancedBatchSamplerCifar* cass - BatchSampler for dataloader, CIFAR doesn't work with the other sampler hence this one.
 - **networks.py**
   - *EmbeddingNet* - base network for encoding images into embedding vector
   - *ClassificationNet* - wrapper for an embedding network, adds a fully connected layer and log softmax for classification
