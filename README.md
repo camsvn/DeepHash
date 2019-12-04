@@ -48,6 +48,17 @@ Requires [pytorch](http://pytorch.org/) 1.3 with torchvision
 
 # Notebooks
 
+1. [Task 2](https://github.com/jjmachan/DeepHash/blob/master/nbs/task_2.ipynb) - In this task notebook we try to figure out the representation capabilites of the pretrained models. This gives us a baseline for the experiments that follow.
+
+2. [Task 3](https://github.com/jjmachan/DeepHash/blob/master/nbs/Task%203.ipynb) - We train a Triplet loss functition to measure the improvement in representation capabilities of the models.
+
+3. [Task 4 semiHardNegetive](https://github.com/jjmachan/DeepHash/blob/master/nbs/task4_semihardNegetive.ipynb) - Training for triplet loss is very hard to converge if the appropriate triplets are not selected so here we try to implement 2 different triplet selectors that are commonly used. This on is semihardNegetive seletion where we take the triplets that are not very hard. This leads to faster convergence.
+
+4. [Task 4 randomNegetive](https://github.com/jjmachan/DeepHash/blob/master/nbs/task4_random_negetive.ipynb) - In this selector we try to find random triplets from the set.
+
+5. [Task 5 alpha1->16](https://github.com/jjmachan/DeepHash/blob/master/nbs/task5_alpha1_16.ipynb) - This is the notebook that shows the most important research findings. In this we train the deepHash model to generate the HashCodes of the imput images. We also try out a new method of slowly increasing the hypermater that controls how well the loss function weights the quantisation values. It was slowly increased leading to much more efficient training.
+
+6. [Task 5 alpha16](https://github.com/jjmachan/DeepHash/blob/master/nbs/task5_alpha16.ipynb) - In this notebook we trainin the DeepHash paper as it is given in [9].
 
 
 
