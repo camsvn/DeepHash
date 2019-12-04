@@ -11,7 +11,7 @@ Learning representations is one of the most important tasks in machine learning 
 times to be familiar with the content and implementation details.
 
 2. Take one of the pretrained models (VGG16, VGG19, ResNet) and one of the two
-benchmark datasets: Cifar10 or SVHN. Extract the features from the last layer
+benchmark datasets: Cifar10. Extract the features from the last layer
 before classifcation) and evaluate the representation capabilties of the taken
 model. For classifcation purposes, you can apply the K-Nearest Neigbour (KNN)
 approach and to examine the retrieval capabilties, use mean average precision
@@ -34,7 +34,7 @@ poor data representation. Implement 3-4 hard mining techniques (you can use thos
 mentioned in [2] and propose your own solution) and examine their quality in terms
 of retrieval capabilities and speed of training.
 
-5. Now you can start real research work! For image retrieval tasks it is useful to
+5. For image retrieval tasks it is useful to
 represent the data using compact binary codes. The representative binary codes
 can be achieved by application of the triplet training framework. We encourage you
 to propose the method of training compact binary codes on the output of the model
